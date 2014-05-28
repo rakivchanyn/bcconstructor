@@ -4,16 +4,15 @@
 
 	public class ObjectsPanel extends MovieClip
 	{
-		private var mMainWidth:int = 0;
-		private var mMainHeight:int = 0;
+		var objPanel:ObjectsPanelObjects;
 		
-		public function ObjectsPanel(aWidth, aHeight)
+		public function ObjectsPanel(aWidth:int, aHeight:int)
 		{
-			mMainWidth = aWidth;
-			mMainHeight = aHeight;
-			trace("ObjectsPanel class");
-//			trace(stage.stageWidth);
-			// constructor code
+			trace("PropertiesPanel class");	
+			objPanel = new ObjectsPanelObjects();
+			objPanel.x = 0;//Вирівнювання панелі по лівому краю.
+			objPanel.y = aHeight/2 - objPanel.height/2;//Вирівнювання панелі по нижньому краю.			
+			addChild(objPanel);
 		}
 	}
 }

@@ -1,17 +1,18 @@
-﻿package  propertiespanel
+﻿package propertiespanel
 {
 	import flash.display.MovieClip;
 	
 	public class PropertiesPanel extends MovieClip
 	{
-		private var mMainWidth:int = 0;
-		private var mMainHeight:int = 0;
+		var propPanel:PropertiesPanelObjects;
 		
-		public function PropertiesPanel(aWidth, aHeight)
+		public function PropertiesPanel(aWidth:int, aHeight:int)
 		{
-			mMainWidth = aWidth;
-			mMainHeight = aHeight;
-			trace("PropertiesPanel class");
+			trace("PropertiesPanel class");	
+			propPanel = new PropertiesPanelObjects();
+			propPanel.x = aWidth/2 - propPanel.width/2;//Вирівнювання панелі по центру.
+			propPanel.y = aHeight - propPanel.height;//Вирівнювання панелі по нижньому краю.			
+			addChild(propPanel);
 		}
 	}
 }
