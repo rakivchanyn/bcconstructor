@@ -12,14 +12,10 @@
 		var propPanel:PropertiesPanelObjects;
 		var mTF:TextField;
 		
-		public function PropertiesPanel(aWidth:int, aHeight:int)
+		public function PropertiesPanel(aText:TextField, aWidth:int, aHeight:int)
 		{
 			trace("PropertiesPanel class");	
-			mTF = new TextField();
-			mTF.text = "HELLO";
-			mTF.type = TextFieldType.INPUT;
-			mTF.x = 100;
-			mTF.y = 100;
+			mTF = aText;
 			propPanel = new PropertiesPanelObjects();
 			propPanel.x = aWidth/2 - propPanel.width/2;//Вирівнювання панелі по центру.
 			propPanel.y = aHeight - propPanel.height;//Вирівнювання панелі по нижньому краю.			

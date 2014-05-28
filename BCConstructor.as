@@ -19,7 +19,7 @@
 			mWidth = stage.stageWidth;
 			mHeight = stage.stageHeight;
 			mText = new TextField();
-			propertiesForm = new PropertiesPanel(mWidth, mHeight);
+			propertiesForm = new PropertiesPanel(mText, mWidth, mHeight);
 			addChild(propertiesForm);
 			objectsForm = new ObjectsPanel(mText, mWidth, mHeight);
 			addChild(objectsForm);
