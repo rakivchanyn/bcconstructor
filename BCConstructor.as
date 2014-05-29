@@ -2,28 +2,31 @@
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-	import flash.text.*;	
+	import flash.text.TextField;	
+	import flash.display.Sprite;
 	import objectspanel.*;
 	import propertiespanel.*;
+	import workspace.*;
 
 	public class BCConstructor extends MovieClip
 	{
 		internal var mWidth:int = 0;
 		internal var mHeight:int = 0;
-		var mText:TextField;
-		public var propertiesForm:PropertiesPanel;
-		public var objectsForm:ObjectsPanel;
 		
 		public function BCConstructor()
 		{
+			trace("BCConstructor class");
 			mWidth = stage.stageWidth;
 			mHeight = stage.stageHeight;
-			mText = new TextField();
-			propertiesForm = new PropertiesPanel(mText, mWidth, mHeight);
+			var workSpace = new WorkSpace(mWidth, mHeight);
+			addChild(workSpace);
+			workSpace.x = mWidth/2 - workSpace.width/2;
+			workSpace.y = mHeight/2 - workSpace.height/2;
+			var propertiesForm = new PropertiesPanel(workSpace, mWidth, mHeight);
 			addChild(propertiesForm);
-			objectsForm = new ObjectsPanel(mText, mWidth, mHeight);
+			var objectsForm = new ObjectsPanel(workSpace, mWidth, mHeight);
 			addChild(objectsForm);
-			trace("BCConstructor class");
+
 //			btTest.addEventListener(MouseEvent.CLICK, onTestButtonClick);//Отслеживаем нажатие кнопки.
 		}
 		
