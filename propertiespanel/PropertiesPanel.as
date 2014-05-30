@@ -31,122 +31,111 @@
 			propPanel.btTextAlignRight.addEventListener(MouseEvent.CLICK, setTextAlingRight);
 			propPanel.cbFontType.addEventListener(Event.CHANGE, setFontType);
 			propPanel.nsFontSize.addEventListener(Event.CHANGE, setFontSize);
-			addChild(mTF);
-
 		}
 		function setTextBold(event:MouseEvent):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					var format:TextFormat = mTF.getTextFormat(0,1);
+					format.bold = !format.bold;
+					mTF.setTextFormat(format);
+				}
 			}
-			else
-			{
-				return;
-			}
-			var format:TextFormat = mTF.getTextFormat(0,1);
-			format.bold = !format.bold;
-			mTF.setTextFormat(format);
 		}
 		
 		function setTextItalic(event:MouseEvent):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					var format:TextFormat = mTF.getTextFormat(0,1);
+					format.italic = !format.italic;
+					mTF.setTextFormat(format);
+				}
 			}
-			else
-			{
-				return;
-			}
-			var format:TextFormat = mTF.getTextFormat(0,1);
-			format.italic = !format.italic;
-			mTF.setTextFormat(format);
 		}
 		
 		function setTextUnderlined(event:MouseEvent):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					var format:TextFormat = mTF.getTextFormat(0,1);
+					format.underline = !format.underline;
+					mTF.setTextFormat(format);
+				}
 			}
-			else
-			{
-				return;
-			}
-			var format:TextFormat = mTF.getTextFormat(0,1);
-			format.underline = !format.underline;
-			mTF.setTextFormat(format);
 		}
 		
 		function setFontType(evt:Event):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					var format:TextFormat = mTF.getTextFormat(0,1);
+					format.font = (evt.currentTarget as ComboBox).selectedItem.data;
+					mTF.setTextFormat(format);
+				}
 			}
-			else
-			{
-				return;
-			}
-			var format:TextFormat = mTF.getTextFormat(0,1);
-			format.font = (evt.currentTarget as ComboBox).selectedItem.data;
-			mTF.setTextFormat(format);
-			
 		}
 		
 		function setFontSize(evt:Event):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					var format:TextFormat = mTF.getTextFormat(0,1);
+					format.size = (evt.currentTarget as NumericStepper).value;
+					mTF.setTextFormat(format);
+				}
 			}
-			else
-			{
-				return;
-			}
-			var format:TextFormat = mTF.getTextFormat(0,1);
-			format.size = (evt.currentTarget as NumericStepper).value;
-			mTF.setTextFormat(format);
 		}
 		
 		function setTextAlingLeft(event:MouseEvent):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					mTF.autoSize = TextFieldAutoSize.LEFT;
+				}
 			}
-			else
-			{
-				return;
-			}
-			mTF.autoSize = TextFieldAutoSize.LEFT; 
 		}
 		
 		function setTextAlingCenter(event:MouseEvent):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					mTF.autoSize = TextFieldAutoSize.CENTER;
+				}
 			}
-			else
-			{
-				return;
-			}
-			mTF.autoSize = TextFieldAutoSize.CENTER; 
 		}
 		
 		function setTextAlingRight(event:MouseEvent):void
 		{
-			if(mWorkSpace.mCurObj[0] is TextField)
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
 			{
-				mTF = mWorkSpace.mCurObj[0];
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					mTF.autoSize = TextFieldAutoSize.RIGHT;
+				}
 			}
-			else
-			{
-				return;
-			}
-			mTF.autoSize = TextFieldAutoSize.RIGHT; 
 		}
 	}
 }

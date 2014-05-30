@@ -16,7 +16,7 @@
 		public var mCurObj:Array;
 		public var mObject:Array;
 		public var mPreviousText: TextField;
-		var mBackGround:Shape;
+		var mBackGround:Sprite;
 
 		public function WorkSpace(aWidth:int, aHeight:int)
 		{
@@ -27,7 +27,7 @@
 			mOffsetX = new Vector.<int>(30); 
 			mOffsetY = new Vector.<int>(30);
 			//Створюєм фон робочої області
-			mBackGround = new Shape(); 
+			mBackGround = new Sprite(); 
 			mBackGround.graphics.lineStyle(1, 0x000000); 
 			mBackGround.graphics.beginFill(0xffffff); 
 			mBackGround.graphics.drawRect(0, 0, mWidth, mHeight); 
@@ -39,7 +39,7 @@
 			mWorkSpaceMask.graphics.beginFill(0xffffff); 
 			mWorkSpaceMask.graphics.drawRect(0, 0, mWidth, mHeight); 
 			mWorkSpaceMask.graphics.endFill(); 
-			this.addEventListener(MouseEvent.CLICK, makeSelected);//Скидаем виділення всіх об'єктів.
+			mBackGround.addEventListener(MouseEvent.CLICK, makeSelected);//Скидаем виділення всіх об'єктів.
 			this.addChild(mWorkSpaceMask); 
 			this.mask = mWorkSpaceMask;//Маска для контейнера робочої області.
 		}
@@ -47,10 +47,8 @@
 		function startDragging(event:MouseEvent):void 
 		{
 			if(event.target is TextField && !event.target.border)//Якщо працюєм з текстом и
-			{	
-				trace(event.target.text);
-				 return;//даний об'єкт не виділений, то нічого не будемо переміщувати
-			}
+				return;//даний об'єкт не виділений, то нічого не будемо переміщувати
+
 			for(var i:int = 0; i < mCurObj.length; i++)
 			{
 				mOffsetX[i] = event.stageX - mCurObj[i].x;//Запис різниці координат миші на екрані і координат
@@ -76,7 +74,7 @@
 			
 		public function createText():void
 		{
-			trace("Text created");
+//			trace("Text created");
 			mCurObj.length = 1;//Обрізаемо масив активних об'єктів, залишаемо тільки 1.
 			mCurObj[0] = new TextField();
 			var i:int = mObject.push(mCurObj[0]) - 1;
@@ -123,7 +121,7 @@
 		{
 			if(event.ctrlKey)//Клік з натиснутою клавішею Ctrl,
 			{	
-				if(event.target == this)//Якщо клікнули по робочій області,
+				if(event.target == mBackGround)//Якщо клікнули по робочій області,
 					return;//то виходимо.
 				else//Інакше,
 					mCurObj.push(event.target);//додаем об'єкт в масив активних об'єктів.
@@ -136,10 +134,14 @@
 						mObject[i].border = false;//то забираєм рамку в об'єкта.
 				}
 				
-				if(event.target == this)//Якщо клікнули по робочій області,
-					return;//то виходимо.
 				mCurObj.length = 1;//Обрізаемо масив активних об'єктів, залишаемо тільки 1.
 				mCurObj[0] = event.target;
+				
+				if(event.target == mBackGround)//Якщо клікнули по робочій області,
+				{
+					mCurObj[0] = null;
+					return;//то виходимо.
+				}
 			}
 				
 			if(event.target is TextField)
