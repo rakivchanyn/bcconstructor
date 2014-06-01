@@ -3,7 +3,7 @@ package
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-	import flash.text.TextField;	
+//	import flash.text.TextField;	
 	import flash.display.Sprite;
 	import objectspanel.*;
 	import propertiespanel.*;
@@ -19,7 +19,7 @@ package
 			trace("BCConstructor class");
 			mWidth = stage.stageWidth;
 			mHeight = stage.stageHeight;
-			var workSpace = new WorkSpace(mWidth, mHeight);
+			var workSpace = new WorkSpace();
 			addChild(workSpace);
 			workSpace.x = mWidth/2 - workSpace.width/2;
 			workSpace.y = mHeight/2 - workSpace.height/2;
@@ -27,14 +27,6 @@ package
 			addChild(propertiesForm);
 			var objectsForm = new ObjectsPanel(workSpace, mWidth, mHeight);
 			addChild(objectsForm);
-
-//			btTest.addEventListener(MouseEvent.CLICK, onTestButtonClick);//Отслеживаем нажатие кнопки.
 		}
-		
-/*		public function onTestButtonClick(Event:MouseEvent):void
-		{
-			trace(Text.x);
-		}
-*/		
 	}
 }

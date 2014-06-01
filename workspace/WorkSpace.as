@@ -8,8 +8,8 @@
 	
 	public class WorkSpace extends Sprite
 	{
-		var mWidth:int = 300;
-		var mHeight:int = 200;
+		public var mWidth:int = 300;
+		public var mHeight:int = 200;
 		var mWorkSpaceMask:Sprite;
 		var mOffsetX:Vector.<int>; 
 		var mOffsetY:Vector.<int>;
@@ -18,7 +18,7 @@
 		public var mPreviousText: TextField;
 		var mBackGround:Sprite;
 
-		public function WorkSpace(aWidth:int, aHeight:int)
+		public function WorkSpace()
 		{
 			trace("WorkSpace class");
 			mCurObj = new Array(1);
