@@ -34,16 +34,17 @@
 		
 		public function saveWorkSpaceAsImage(event:MouseEvent):void
 		{	//Налаштовуево розмір картинки робочої області.
-			var scale:int = 5;
-			trace(mWorkSpace.width-1);
+			var scale:int = 5;//Масштаб зображення робочої області.
+			//Створюємо об'єкт данних для прийняття зображення робочої області.
 			var bBitmapData:BitmapData = new BitmapData(scale*(mWorkSpace.mWidth),
 														scale*(mWorkSpace.mHeight), true, 0x0);
-			var scaleMatrix:Matrix = new Matrix(scale,0,0,scale);
-			bBitmapData.draw(mWorkSpace, scaleMatrix);//Заповнюємо дані для побудови зображення з вмісту робочої області.
+			var scaleMatrix:Matrix = new Matrix(scale,0,0,scale);//Матриця масштабування.
+			//Заповнюємо дані для побудови зображення робочої області з масшатабом.
+			bBitmapData.draw(mWorkSpace, scaleMatrix);
 			var mWorkSpaceBitmap:Bitmap = new Bitmap(bBitmapData);//Створюємо зображення вмісту робочої області.
-			var byteArrayWorkSpace:ByteArray = PNGEncoder.encode(bBitmapData, 300);
-			var mWorkSpaceImage:FileReference = new FileReference();
-			mWorkSpaceImage.save(byteArrayWorkSpace, "image.png");
+			var byteArrayWorkSpace:ByteArray = PNGEncoder.encode(bBitmapData, 300);//Конвертуємо у формат png
+			var mWorkSpaceImage:FileReference = new FileReference();//Створюємо посилання на об'єкт зображення.
+			mWorkSpaceImage.save(byteArrayWorkSpace, "image.png");//Зберігаємо файл зображення на комп'ютер.
 		}
 	}
 }

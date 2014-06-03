@@ -8,6 +8,7 @@ package
 	import objectspanel.*;
 	import propertiespanel.*;
 	import workspace.*;
+	import settingspanel.*;
 
 	public class BCConstructor extends MovieClip
 	{
@@ -21,6 +22,8 @@ package
 			mHeight = stage.stageHeight;
 			var workSpace = new WorkSpace();
 			addChild(workSpace);
+			var settingsForm = new SettingsPanel(workSpace, mWidth, mHeight);
+			addChild(settingsForm);
 			workSpace.x = mWidth/2 - workSpace.width/2;
 			workSpace.y = mHeight/2 - workSpace.height/2;
 			var propertiesForm = new PropertiesPanel(workSpace, mWidth, mHeight);
