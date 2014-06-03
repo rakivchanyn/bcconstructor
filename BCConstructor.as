@@ -1,5 +1,4 @@
-﻿//some changes
-package
+﻿package
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;

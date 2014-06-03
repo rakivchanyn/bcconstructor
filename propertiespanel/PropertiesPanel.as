@@ -23,6 +23,7 @@
 			propPanel.x = aWidth/2 - propPanel.width/2;//Вирівнювання панелі по центру.
 			propPanel.y = aHeight - propPanel.height;//Вирівнювання панелі по нижньому краю.			
 			addChild(propPanel);
+			//Додаємо обробку натискань на елементи панелі інструментів.
 			propPanel.btTextBold.addEventListener(MouseEvent.CLICK, setTextBold);
 			propPanel.btTextItalic.addEventListener(MouseEvent.CLICK, setTextItalic);
 			propPanel.btTextUnderlined.addEventListener(MouseEvent.CLICK, setTextUnderlined);

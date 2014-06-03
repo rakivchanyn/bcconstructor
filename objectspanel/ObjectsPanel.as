@@ -12,7 +12,7 @@
 		
 		public function ObjectsPanel(aWorkSpace:WorkSpace, aWidth:int, aHeight:int)
 		{
-			trace("PropertiesPanel class");	
+			trace("ObjectPanel class");	
 			mWorkSpace = aWorkSpace;
 			mWidth = aWidth;
 			mHeight = aHeight;
