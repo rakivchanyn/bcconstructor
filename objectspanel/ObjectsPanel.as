@@ -15,7 +15,11 @@
 		
 		public function ObjectsPanel(aWorkSpace:WorkSpace, aWidth:int, aHeight:int)
 		{
+<<<<<<< HEAD
 			trace("ObjectsPanel class");	
+=======
+			trace("ObjectPanel class");	
+>>>>>>> 748ff1350d07361d693f698e3a3e7cdfad89c176
 			mWorkSpace = aWorkSpace;
 			var objPanel = new ObjectsPanelObjects();
 			objPanel.x = 0;//Вирівнювання панелі по лівому краю.
