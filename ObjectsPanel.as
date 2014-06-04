@@ -1,4 +1,4 @@
-﻿package objectspanel
+﻿package
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
@@ -7,7 +7,6 @@
     import flash.display.BitmapData;
 	import flash.utils.ByteArray;
 	import flash.geom.Matrix;
-	import workspace.*;
 	
 	public class ObjectsPanel extends MovieClip
 	{
@@ -34,7 +33,7 @@
 		
 		public function saveWorkSpaceAsImage(event:MouseEvent):void
 		{	//Налаштовуево розмір картинки робочої області.
-			var scale:int = 5;//Масштаб зображення робочої області.
+			var scale:Number = 6.25;//Масштаб зображення робочої області.
 			//Створюємо об'єкт данних для прийняття зображення робочої області.
 			var bBitmapData:BitmapData = new BitmapData(scale*(mWorkSpace.mWidth),
 														scale*(mWorkSpace.mHeight), true, 0x0);
@@ -42,7 +41,7 @@
 			//Заповнюємо дані для побудови зображення робочої області з масшатабом.
 			bBitmapData.draw(mWorkSpace, scaleMatrix);
 			var mWorkSpaceBitmap:Bitmap = new Bitmap(bBitmapData);//Створюємо зображення вмісту робочої області.
-			var byteArrayWorkSpace:ByteArray = PNGEncoder.encode(bBitmapData, 300);//Конвертуємо у формат png
+			var byteArrayWorkSpace:ByteArray = PNGEncoder.encode(bBitmapData, 600);//Конвертуємо у формат png
 			var mWorkSpaceImage:FileReference = new FileReference();//Створюємо посилання на об'єкт зображення.
 			mWorkSpaceImage.save(byteArrayWorkSpace, "image.png");//Зберігаємо файл зображення на комп'ютер.
 		}

@@ -1,4 +1,4 @@
-﻿package objectspanel
+﻿package
 {
 
 import flash.display.BitmapData;

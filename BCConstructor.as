@@ -2,12 +2,8 @@
 {
 	import flash.display.MovieClip;
 	import flash.events.MouseEvent;
-//	import flash.text.TextField;	
+	import flash.events.Event;
 	import flash.display.Sprite;
-	import objectspanel.*;
-	import propertiespanel.*;
-	import workspace.*;
-	import settingspanel.*;
 
 	public class BCConstructor extends MovieClip
 	{

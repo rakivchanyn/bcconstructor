@@ -1,22 +1,22 @@
-﻿package  workspace
+﻿package
 {
 	import flash.display.Sprite;
 	import flash.events.MouseEvent
 	import flash.display.Shape;
 	import flash.text.*;
-
 	
 	public class WorkSpace extends Sprite
 	{
-		public var mWidth:int = 300;
-		public var mHeight:int = 200;
+		public var mScreenDPI:Number = 96/25.4;
+		public var mWidth:int = 30*mScreenDPI;
+		public var mHeight:int = 20*mScreenDPI;
 		var mWorkSpaceMask:Sprite;
+		var mBackGround:Sprite;
 		var mOffsetX:Vector.<int>; 
 		var mOffsetY:Vector.<int>;
 		public var mCurObj:Array;
 		public var mObject:Array;
 		public var mPreviousText: TextField;
-		var mBackGround:Sprite;
 
 		public function WorkSpace()
 		{
@@ -28,20 +28,30 @@
 			mOffsetY = new Vector.<int>(30);
 			//Створюєм фон робочої області
 			mBackGround = new Sprite(); 
-			mBackGround.graphics.lineStyle(1, 0x000000); 
+//			mBackGround.graphics.lineStyle(0, 0xffffff); 
 			mBackGround.graphics.beginFill(0xffffff); 
 			mBackGround.graphics.drawRect(0, 0, mWidth, mHeight); 
 			mBackGround.graphics.endFill(); 
 			this.addChild(mBackGround);
 			//Створюємо маску робочої області.
 			mWorkSpaceMask = new Sprite(); 
-			mWorkSpaceMask.graphics.lineStyle(1, 0x000000); 
+//			mWorkSpaceMask.graphics.lineStyle(0, 0xffffff); 
 			mWorkSpaceMask.graphics.beginFill(0xffffff); 
 			mWorkSpaceMask.graphics.drawRect(0, 0, mWidth, mHeight); 
 			mWorkSpaceMask.graphics.endFill(); 
 			mBackGround.addEventListener(MouseEvent.CLICK, makeSelected);//Скидаем виділення всіх об'єктів.
 			this.addChild(mWorkSpaceMask); 
 			this.mask = mWorkSpaceMask;//Маска для контейнера робочої області.
+		}
+		//Метод, що змінює розмір робочої області.
+		public function resizeWorkSpace(aWidth:int, aHeight:int)
+		{
+			mWidth = aWidth*mScreenDPI;
+			mHeight = aHeight*mScreenDPI;
+			mBackGround.width = mWidth;
+			mBackGround.height = mHeight;
+			mWorkSpaceMask.width = mWidth;
+			mWorkSpaceMask.height = mHeight;
 		}
 		//Функція початку перетягування обєктів. Визиваеться коли відбувається натискання миші.
 		function startDragging(event:MouseEvent):void 
