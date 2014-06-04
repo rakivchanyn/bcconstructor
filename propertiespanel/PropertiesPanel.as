@@ -31,7 +31,7 @@
 			propPanel.btTextAlignCenter.addEventListener(MouseEvent.CLICK, setTextAlingCenter);
 			propPanel.btTextAlignRight.addEventListener(MouseEvent.CLICK, setTextAlingRight);
 			propPanel.cbFontType.addEventListener(Event.CHANGE, setFontType);
-			propPanel.nsFontSize.addEventListener(Event.CHANGE, setFontSize);
+//			propPanel.nsFontSize.addEventListener(Event.CHANGE, setFontSize);
 		}
 		function setTextBold(event:MouseEvent):void
 		{
