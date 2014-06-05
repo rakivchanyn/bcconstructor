@@ -1,8 +1,9 @@
 ﻿package
 {
 	import flash.display.Sprite;
-	import flash.events.MouseEvent
+	import flash.events.MouseEvent;
 	import flash.display.Shape;
+    import flash.display.InteractiveObject;
 	import flash.text.*;
 	
 	public class WorkSpace extends Sprite
@@ -12,12 +13,13 @@
 		public var mHeight:int = 20*mScreenDPI;
 		var mWorkSpaceMask:Sprite;
 		var mBackGround:Sprite;
+		var mNoFocusText:TextField;
 		var mOffsetX:Vector.<int>; 
 		var mOffsetY:Vector.<int>;
 		public var mCurObj:Array;
 		public var mObject:Array;
-		public var mPreviousText: TextField;
-
+		public var mPreviousText:TextField;
+		
 		public function WorkSpace()
 		{
 			trace("WorkSpace class");
@@ -28,20 +30,145 @@
 			mOffsetY = new Vector.<int>(30);
 			//Створюєм фон робочої області
 			mBackGround = new Sprite(); 
-//			mBackGround.graphics.lineStyle(0, 0xffffff); 
 			mBackGround.graphics.beginFill(0xffffff); 
 			mBackGround.graphics.drawRect(0, 0, mWidth, mHeight); 
 			mBackGround.graphics.endFill(); 
+			mBackGround.doubleClickEnabled = true;
+			mNoFocusText = new TextField();
 			this.addChild(mBackGround);
 			//Створюємо маску робочої області.
 			mWorkSpaceMask = new Sprite(); 
-//			mWorkSpaceMask.graphics.lineStyle(0, 0xffffff); 
 			mWorkSpaceMask.graphics.beginFill(0xffffff); 
 			mWorkSpaceMask.graphics.drawRect(0, 0, mWidth, mHeight); 
 			mWorkSpaceMask.graphics.endFill(); 
 			mBackGround.addEventListener(MouseEvent.CLICK, makeSelected);//Скидаем виділення всіх об'єктів.
-			this.addChild(mWorkSpaceMask); 
+			mBackGround.addEventListener(MouseEvent.DOUBLE_CLICK, makeEditable);
+			this.addChild(mWorkSpaceMask);
 			this.mask = mWorkSpaceMask;//Маска для контейнера робочої області.
+		}
+		//Метод скидування фокусу з усіх об'єктів робочої області.
+		public function setNoFocus():void
+		{
+			for(var i:int = 0; i < mObject.length; i++)//провіряем список всіх об'єктів крім останнього.
+			{
+				if(mObject[i] is TextField)//Якщо працюєм з текстом,
+				{
+					mObject[i].border = false;//то забираєм рамку в об'єкта,
+					mObject[i].selectable = false;//забороняем редактування,
+					mObject[i].setSelection(0, 0);//знімаємо виділення тексту.				
+				}
+			}
+			
+			mCurObj.length = 1;//Залишаємо в масиві поточних об'єктів тільки один елемент
+			mCurObj[0] = null;//і занулюємо його.
+			stage.focus = mNoFocusText;//Установка фокуса на текст, якого не видно.
+		}
+		//Відслідковуємо подвійний клік по об'єкту.
+		public function makeEditable(event:MouseEvent):void
+		{
+			this.setNoFocus();//Знімаємо фокус з об'єктів.
+			
+			if(event.target is TextField)//Якщо двічі клікнули по тексту,
+			{
+				mCurObj[0] = event.target;//Відмічаємо об'єкт як активний.
+				mCurObj[0].border = true;//Показуємо рамку для об'єкта.
+				mCurObj[0].selectable = true;//Дозволяємо редактування.
+				stage.focus = mCurObj[0];//Установка фокуса на текст.
+				return;
+			}
+			
+			if(event.target == mBackGround)//Якщо двічі клікнули по робочій області,
+			{
+				mCurObj[0] = null;//то активних об'єктів нема і
+				return;//виходимо.
+			}
+		}
+		//Відслідковуємо виділення об'єкта по одинарному кліку мишею.
+		public function makeSelected(event:MouseEvent):void
+		{
+			if(event.ctrlKey)//Клік з натиснутою клавішею Ctrl,
+			{	
+				if(event.target == mBackGround)//Якщо клікнули по робочій області,
+					return;//то виходимо.
+				
+				mCurObj.push(event.target);//Додаем об'єкт в масив активних об'єктів.
+					
+				if(event.target is TextField)
+				{
+					for(var i:int = 0; i < mObject.length; i++)//Провіряем список всіх об'єктів.
+					{
+						if(mObject[i] is TextField)//Якщо працюєм з текстом,
+							mObject[i].selectable = false;//і робимо об'єкт нередактованим.
+					}
+				
+					event.target.border = true;//Виділяємо об'єкт.
+				}
+				
+				stage.focus = mNoFocusText;//Установка фокуса на текст, якого не видно.
+			}
+			else//Клік без клавіші Ctrl.
+			{
+				if(event.target is TextField)
+				{	
+					if(event.target.selectable)//Якщо поточний можна редактувати,
+						return;//то виходимо;
+					else//Якщо редактувати не можна,
+					{
+						this.setNoFocus();//то знімаємо фокус з усіх об'єктів,
+						mCurObj[0] = event.target;//позначаєм даний об'єкт поточним,
+						mCurObj[0].border = true;//виділяємо його рамкою
+						return;//і виходимо;
+					}
+				}
+				
+				if(event.target == mBackGround)//Якщо клікнули по робочій області,
+				{
+					this.setNoFocus();//скидуєм фокус з об'єктів,
+					mCurObj[0] = null;//спорожнюєм масив поточних об'єктів
+					return;//і виходимо.
+				}
+			}
+		}
+		//Метод створює текст при нажиманні на кнопку добавити текст.
+		public function createText():void
+		{
+			this.setNoFocus();//Скидання фокусу з об'єктів.
+			mCurObj[0] = new TextField();
+			var i:int = mObject.push(mCurObj[0]) - 1;
+			var format:TextFormat = new TextFormat();
+			
+			if(mPreviousText == null)
+			{
+				mPreviousText = new TextField();
+				format.color = 0x000000; 
+				format.size = 14; 
+				format.font = "Times New Roman"; 
+				format.bold = false;
+				format.italic = false;
+				format.underline = false;
+			}
+			else
+				format = mPreviousText.getTextFormat(0,1);
+			
+			mObject[i].defaultTextFormat = format;			
+			mObject[i].type = TextFieldType.INPUT;
+			mObject[i].multiline = true;
+			mObject[i].border = true;
+			mObject[i].autoSize = TextFieldAutoSize.CENTER; 
+			mObject[i].selectable = true;
+			mObject[i].doubleClickEnabled = true;
+			mObject[i].text = "Type Text Here";						
+			this.addChild(mObject[i]);
+			mObject[i].x = mWidth/2 - mObject[i].width/2;
+			mObject[i].y = mHeight/2 - mObject[i].height/2;
+			mObject[i].addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
+			mObject[i].addEventListener(MouseEvent.MOUSE_UP, stopDragging);//Відслідковуем відпускання миші.
+			//Відслідковуємо клік по об'єкту, роблячи його виділеним.
+			mObject[i].addEventListener(MouseEvent.CLICK, makeSelected);
+			mObject[i].addEventListener(MouseEvent.DOUBLE_CLICK, makeEditable);
+			mPreviousText = mObject[i];
+			stage.focus = mObject[i];//Установка фокуса на текстове поле.
+			mObject[i].setSelection(0, mObject[i].text.length);//Виділяем текст для редактування.
 		}
 		//Метод, що змінює розмір робочої області.
 		public function resizeWorkSpace(aWidth:int, aHeight:int)
@@ -56,9 +183,15 @@
 		//Функція початку перетягування обєктів. Визиваеться коли відбувається натискання миші.
 		function startDragging(event:MouseEvent):void 
 		{
-			if(event.target is TextField && !event.target.border)//Якщо працюєм з текстом и
-				return;//даний об'єкт не виділений, то нічого не будемо переміщувати
-
+			if(event.target is TextField)
+			{
+				if(!event.target.border)//Якщо працюєм з текстом і він не виділений,
+					return;//то нічого не будемо переміщувати.
+			
+				if(event.target.selectable)//Якщо працюєм з текстом і його не можна редактувати
+					return;//то нічого не будемо переміщувати.
+			}
+			
 			for(var i:int = 0; i < mCurObj.length; i++)
 			{
 				mOffsetX[i] = event.stageX - mCurObj[i].x;//Запис різниці координат миші на екрані і координат
@@ -80,87 +213,6 @@
 				mCurObj[i].x = event.stageX - mOffsetX[i]; 
 				mCurObj[i].y = event.stageY - mOffsetY[i]; 
 			}
-		} 
-			
-		public function createText():void
-		{
-//			trace("Text created");
-			mCurObj.length = 1;//Обрізаемо масив активних об'єктів, залишаемо тільки 1.
-			mCurObj[0] = new TextField();
-			var i:int = mObject.push(mCurObj[0]) - 1;
-			var format:TextFormat = new TextFormat();
-			
-			if(mPreviousText == null)
-			{
-				mPreviousText = new TextField();
-				format.color = 0x000000; 
-				format.size = 14; 
-				format.font = "Times New Roman"; 
-				format.bold = false;
-				format.italic = false;
-				format.underline = false;
-			}
-			else
-				format = mPreviousText.getTextFormat(0,1);
-			
-			mObject[i].defaultTextFormat = format;			
-			mObject[i].type = TextFieldType.INPUT;
-			mObject[i].border = true;
-			mObject[i].multiline = true;
-			mObject[i].autoSize = TextFieldAutoSize.CENTER; 
-			mObject[i].selectable = true;
-			mObject[i].mouseEnabled = true;
-			mObject[i].text = "Type Text Here";						
-			this.addChild(mObject[i]);
-			mObject[i].x = mWidth/2 - mObject[i].width/2;
-			mObject[i].y = mHeight/2 - mObject[i].height/2;
-			mObject[i].addEventListener(MouseEvent.MOUSE_DOWN, startDragging);
-			mObject[i].addEventListener(MouseEvent.MOUSE_UP, stopDragging);//Відслідковуем відпускання миші.
-			//Відслідковуємо клік по об'єкту, роблячи його виділеним.
-			mObject[i].addEventListener(MouseEvent.CLICK, makeSelected);
-			mPreviousText = mObject[i];
-			
-			for(i = 0; i < mObject.length - 1; i++)//провіряем список всіх об'єктів крім останнього.
-			{
-				if(mObject[i] is TextField)//Якщо працюєм з текстом,
-					mObject[i].border = false;//то забираєм рамку в об'єкта.
-			}
 		}
-		//Відслідковуємо появу фокуса об'єкта.
-		public function makeSelected(event:MouseEvent):void
-		{
-			if(event.ctrlKey)//Клік з натиснутою клавішею Ctrl,
-			{	
-				if(event.target == mBackGround)//Якщо клікнули по робочій області,
-					return;//то виходимо.
-				else//Інакше,
-					mCurObj.push(event.target);//додаем об'єкт в масив активних об'єктів.
-			}
-			else
-			{
-				for(var i:int = 0; i < mObject.length; i++)//провіряем список всіх об'єктів.
-				{
-					if(mObject[i] is TextField)//Якщо працюєм з текстом,
-						mObject[i].border = false;//то забираєм рамку в об'єкта.
-				}
-				
-				mCurObj.length = 1;//Обрізаемо масив активних об'єктів, залишаемо тільки 1.
-				mCurObj[0] = event.target;
-				
-				if(event.target == mBackGround)//Якщо клікнули по робочій області,
-				{
-					mCurObj[0] = null;
-					return;//то виходимо.
-				}
-			}
-				
-			if(event.target is TextField)
-				event.target.border = true;
-		}		
 	}
 }
-//			mObject[i].background = true;
-//			mObject[i].gridFitType=GridFitType.PIXEL;
-//			mObject[i].antiAliasType = AntiAliasType.ADVANCED;
-//			mObject[i].sharpness = -400;			
-//			mObject[i].embedFonts = true; 
