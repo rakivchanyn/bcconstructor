@@ -2,6 +2,7 @@
 {
 	import flash.display.Sprite;
 	import flash.events.MouseEvent;
+	import flash.events.KeyboardEvent;
 	import flash.display.Shape;
     import flash.display.InteractiveObject;
 	import flash.text.*;
@@ -35,6 +36,8 @@
 			mBackGround.graphics.endFill(); 
 			mBackGround.doubleClickEnabled = true;
 			mNoFocusText = new TextField();
+			mNoFocusText.y = -100;
+			addChild(mNoFocusText);
 			this.addChild(mBackGround);
 			//Створюємо маску робочої області.
 			mWorkSpaceMask = new Sprite(); 
@@ -45,6 +48,36 @@
 			mBackGround.addEventListener(MouseEvent.DOUBLE_CLICK, makeEditable);
 			this.addChild(mWorkSpaceMask);
 			this.mask = mWorkSpaceMask;//Маска для контейнера робочої області.
+ 			this.addEventListener(KeyboardEvent.KEY_DOWN, deleteObjects);
+		}
+		//Метод видалення об'єктів клавішею Delete.
+		function deleteObjects(event:KeyboardEvent):void 
+		{
+			if(event.charCode == 127)//Якщо натиснута клавіша Delete.
+			{	//Якщо поточний об'єкт не існує або в режимі редактування тексту,
+				if(mCurObj[0] == null || mCurObj[0].selectable)
+					return;//то виходимо.
+				else
+				{
+					for(var i:int = mCurObj.length - 1; i >= 0; i--)//Провіряємо всі поточні об'єкти. 
+					{	
+						for(var j:int = mObject.length - 1; j >= 0; j--)//Провіряємо всі створені об'єкти.
+						{
+							if(mObject[j] == mCurObj[i])//Якщо елементи масивів співпали,
+							{
+								mObject.splice(j, 1);//то видаляємо подібний.
+								break;
+							}
+						}
+
+						removeChild(mCurObj[i]);//Видаляємо з відображення на екрані і з прослуховувачів
+						mCurObj[i].removeEventListener(MouseEvent.CLICK, makeSelected);//подій
+						mCurObj[i].removeEventListener(MouseEvent.DOUBLE_CLICK, makeEditable);
+						mCurObj[i] = null;//Видаляемо об'єкт
+					}
+					mCurObj.length = 0;
+				}
+			}
 		}
 		//Метод скидування фокусу з усіх об'єктів робочої області.
 		public function setNoFocus():void
@@ -61,6 +94,7 @@
 			
 			mCurObj.length = 1;//Залишаємо в масиві поточних об'єктів тільки один елемент
 			mCurObj[0] = null;//і занулюємо його.
+			mNoFocusText.text = "";
 			stage.focus = mNoFocusText;//Установка фокуса на текст, якого не видно.
 		}
 		//Відслідковуємо подвійний клік по об'єкту.
@@ -83,7 +117,7 @@
 				return;//виходимо.
 			}
 		}
-		//Відслідковуємо виділення об'єкта по одинарному кліку мишею.
+		//Відслідковуємо виділення об'єкта/об'єктів по одинарному кліку мишею.
 		public function makeSelected(event:MouseEvent):void
 		{
 			if(event.ctrlKey)//Клік з натиснутою клавішею Ctrl,
@@ -137,7 +171,7 @@
 			var i:int = mObject.push(mCurObj[0]) - 1;
 			var format:TextFormat = new TextFormat();
 			
-			if(mPreviousText == null)
+			if(mPreviousText == null || mPreviousText.text == "")
 			{
 				mPreviousText = new TextField();
 				format.color = 0x000000; 

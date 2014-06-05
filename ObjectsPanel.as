@@ -32,7 +32,9 @@
 		}
 		
 		public function saveWorkSpaceAsImage(event:MouseEvent):void
-		{	//Налаштовуево розмір картинки робочої області.
+		{	
+			mWorkSpace.setNoFocus();//Знімаємо фокус і виділення з об'єктів.
+			//Налаштовуево розмір картинки робочої області.
 			var scale:Number = 6.25;//Масштаб зображення робочої області.
 			//Створюємо об'єкт данних для прийняття зображення робочої області.
 			var bBitmapData:BitmapData = new BitmapData(scale*(mWorkSpace.mWidth),
