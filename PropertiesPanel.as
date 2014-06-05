@@ -30,6 +30,7 @@
 			propPanel.btTextAlignCenter.addEventListener(MouseEvent.CLICK, setTextAlingCenter);
 			propPanel.btTextAlignRight.addEventListener(MouseEvent.CLICK, setTextAlingRight);
 			propPanel.cbFontType.addEventListener(Event.CHANGE, setFontType);
+			propPanel.cbColorPick.addEventListener(Event.CHANGE, setTextColor);
 			propPanel.nsFontSize.addEventListener(Event.CHANGE, setFontSize);
 		}
 		function setTextBold(event:MouseEvent):void
@@ -97,6 +98,20 @@
 					mTF = mWorkSpace.mCurObj[i];
 					var format:TextFormat = mTF.getTextFormat(0,1);
 					format.size = (evt.currentTarget as NumericStepper).value;
+					mTF.setTextFormat(format);
+				}
+			}
+		}
+		
+		function setTextColor(evt:Event):void
+		{
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
+			{
+				if(mWorkSpace.mCurObj[i] is TextField)
+				{
+					mTF = mWorkSpace.mCurObj[i];
+					var format:TextFormat = mTF.getTextFormat(0,1);
+					format.color = (evt.currentTarget as ComboBox).selectedItem.data;
 					mTF.setTextFormat(format);
 				}
 			}
