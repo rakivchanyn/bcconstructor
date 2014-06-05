@@ -21,6 +21,9 @@
 		public var mObject:Array;
 		public var mPreviousText:TextField;
 		
+		//[Embed(source="c:/repository/fonts/sansMS.ttf", fontFamily="Sans MS", embedAsCFF="false")]
+		//private var SansMS:Class;
+		
 		public function WorkSpace()
 		{
 			trace("WorkSpace class");
@@ -182,8 +185,11 @@
 				format.underline = false;
 			}
 			else
+			{
 				format = mPreviousText.getTextFormat(0,1);
+			}
 			
+			//mObject[i].embedFonts = true;
 			mObject[i].defaultTextFormat = format;			
 			mObject[i].type = TextFieldType.INPUT;
 			mObject[i].multiline = true;
