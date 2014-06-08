@@ -6,6 +6,7 @@
 	import flash.display.Shape;
     import flash.display.InteractiveObject;
 	import flash.text.*;
+	import EmbFonts;
 	
 	public class WorkSpace extends Sprite
 	{
@@ -20,13 +21,22 @@
 		public var mCurObj:Array;
 		public var mObject:Array;
 		public var mPreviousText:TextField;
-		
-		//[Embed(source="c:/repository/fonts/sansMS.ttf", fontFamily="Sans MS", embedAsCFF="false")]
-		//private var SansMS:Class;
-		
+//		
+//		[Embed(source="c:/repository/fonts/sansMS.ttf", fontFamily="Sans MS", embedAsCFF="false")]
+//		private var SansMS:Class;
+
+//		[Embed(source="c:/repository/fonts/sansMS.ttf", fontFamily="EmbSansMS", 
+//   						fontStyle="normal", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
+//		public static var EmbSansMS : Class;
+//		[Embed(source="c:/repository/fonts/sansMSBold.ttf", fontFamily="EmbSansMS", 
+//   						fontStyle="normal", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
+//		private static var EmbSansMSBold : Class;
+
 		public function WorkSpace()
 		{
 			trace("WorkSpace class");
+			var embF:EmbFonts = new EmbFonts();
+			embF.loadFonts()
 			mCurObj = new Array(1);
 			mCurObj[0] = null;
 			mObject = new Array();
@@ -179,7 +189,9 @@
 				mPreviousText = new TextField();
 				format.color = 0x000000; 
 				format.size = 14; 
-				format.font = "Times New Roman"; 
+				//format.font = "Times New Roman"; 
+				//trace(EmbFonts.EmbSansMS().fontFamilyName);
+				format.font = "EmbTimesNewRoman";//EmbFonts.EmbSansMS().fontFamily;
 				format.bold = false;
 				format.italic = false;
 				format.underline = false;
@@ -189,7 +201,7 @@
 				format = mPreviousText.getTextFormat(0,1);
 			}
 			
-			//mObject[i].embedFonts = true;
+			mObject[i].embedFonts = true;
 			mObject[i].defaultTextFormat = format;			
 			mObject[i].type = TextFieldType.INPUT;
 			mObject[i].multiline = true;
