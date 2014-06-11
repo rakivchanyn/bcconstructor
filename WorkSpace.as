@@ -7,6 +7,9 @@
     import flash.display.InteractiveObject;
 	import flash.text.*;
 	import EmbFonts;
+    import flash.events.EventDispatcher;
+    import flash.events.Event;
+	import CurrentObjectsEventer;
 	
 	public class WorkSpace extends Sprite
 	{
@@ -88,6 +91,7 @@
 						mCurObj[i].removeEventListener(MouseEvent.DOUBLE_CLICK, makeEditable);
 						mCurObj[i] = null;//Видаляемо об'єкт
 					}
+					
 					mCurObj.length = 0;
 				}
 			}
@@ -121,12 +125,14 @@
 				mCurObj[0].border = true;//Показуємо рамку для об'єкта.
 				mCurObj[0].selectable = true;//Дозволяємо редактування.
 				stage.focus = mCurObj[0];//Установка фокуса на текст.
+				dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_TRUE));//Подія "Виділено об'єкти".
 				return;
 			}
 			
 			if(event.target == mBackGround)//Якщо двічі клікнули по робочій області,
 			{
 				mCurObj[0] = null;//то активних об'єктів нема і
+				dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_FALSE));//Подія "Не виділено жодного об'єкту".
 				return;//виходимо.
 			}
 		}
@@ -150,7 +156,8 @@
 				
 					event.target.border = true;//Виділяємо об'єкт.
 				}
-				
+
+				dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_TRUE));//Подія "Виділено об'єкти".
 				stage.focus = mNoFocusText;//Установка фокуса на текст, якого не видно.
 			}
 			else//Клік без клавіші Ctrl.
@@ -164,6 +171,7 @@
 						this.setNoFocus();//то знімаємо фокус з усіх об'єктів,
 						mCurObj[0] = event.target;//позначаєм даний об'єкт поточним,
 						mCurObj[0].border = true;//виділяємо його рамкою
+						dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_TRUE));//Подія "Виділено об'єкти".
 						return;//і виходимо;
 					}
 				}
@@ -172,6 +180,7 @@
 				{
 					this.setNoFocus();//скидуєм фокус з об'єктів,
 					mCurObj[0] = null;//спорожнюєм масив поточних об'єктів
+					dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_FALSE));//Подія "Не виділено жодного об'єкту".
 					return;//і виходимо.
 				}
 			}
@@ -221,6 +230,7 @@
 			mPreviousText = mObject[i];
 			stage.focus = mObject[i];//Установка фокуса на текстове поле.
 			mObject[i].setSelection(0, mObject[i].text.length);//Виділяем текст для редактування.
+ 			dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_TRUE));//Подія "Виділено об'єкти".
 		}
 		//Метод, що змінює розмір робочої області.
 		public function resizeWorkSpace(aWidth:int, aHeight:int)
