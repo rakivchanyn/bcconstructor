@@ -38,8 +38,8 @@
 		public function WorkSpace()
 		{
 			trace("WorkSpace class");
-			var embF:EmbFonts = new EmbFonts();
-			embF.loadFonts()
+//			var embF:EmbFonts = new EmbFonts();
+//			embF.loadFonts()
 			mCurObj = new Array(1);
 			mCurObj[0] = null;
 			mObject = new Array();
@@ -210,7 +210,7 @@
 				format = mPreviousText.getTextFormat(0,1);
 			}
 			
-			mObject[i].embedFonts = true;
+//			mObject[i].embedFonts = true;
 			mObject[i].defaultTextFormat = format;			
 			mObject[i].type = TextFieldType.INPUT;
 			mObject[i].multiline = true;
