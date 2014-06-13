@@ -15,6 +15,8 @@
 		var propPanel:PropertiesPanelObjects;
 		var mTF:TextField;
 		var mWorkSpace:WorkSpace;
+		var mX:int;
+		var mY:int;
 		
 		public function PropertiesPanel(aWorkSpace:WorkSpace, aWidth:int, aHeight:int)
 		{
@@ -37,6 +39,8 @@
 			propPanel.cbFontType.addEventListener(Event.CHANGE, setFontType);
 			propPanel.cbColorPick.addEventListener(Event.CHANGE, setTextColor);
 			propPanel.nsFontSize.addEventListener(Event.CHANGE, setFontSize);
+			propPanel.tiX.addEventListener(Event.CHANGE, setXPosition);
+			propPanel.tiY.addEventListener(Event.CHANGE, setYPosition);
 			//Прослуховувач події на скидання фокуса з об'єктів(тобто жоден об'єкт не виділений).
 			mWorkSpace.addEventListener(CurrentObjectsEventer.CURRENT_OBJECTS_FALSE, noCurrentObjects);
 			//Прослуховувач події на появу фокуса на об'єкті/об'єктах.
@@ -44,15 +48,42 @@
 			mWorkSpace.dispatchEvent(new CurrentObjectsEventer(CurrentObjectsEventer.CURRENT_OBJECTS_FALSE));//Подія "Не виділено жодного об'єкту".
 			trace("PropertiesPanel end");	
 		}
+		//Функція зміни положення об'єктів по координаті Х.
+		function setXPosition(event:Event)
+		{
+			var iXChange:int;
+			iXChange = mX - int(propPanel.tiX.text);//Визначаємо зміну в між попереднім значенням координати і зміненим.
+			
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)//Працюємо з поточними виділенними об'єктами.
+			{
+				mWorkSpace.mCurObj[i].x = mWorkSpace.mCurObj[i].x - iXChange;//Змінюємо координату Х об'єкта на величину зміни.
+			}
+			
+			mX = int(propPanel.tiX.text);//Запам'ятовуємо теперішнє значення.
+		}
+		//Функція зміни положення об'єктів по координаті Y.
+		function setYPosition(event:Event)
+		{
+			var iYChange:int;
+			iYChange = mY - int(propPanel.tiY.text);//Визначаємо зміну в між попереднім значенням координати і зміненим.
+
+			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)//Працюємо з поточними виділенними об'єктами.
+			{
+				mWorkSpace.mCurObj[i].y = mWorkSpace.mCurObj[i].y - iYChange;//Змінюємо координату Y об'єкта на величину зміни.
+			}
+			
+			mY = int(propPanel.tiY.text);//Запам'ятовуємо теперішнє значення.
+		}
 		//Функція керування зовнішнім виглядом панелі властивостей, коли не виділений жодний об'єкт.
 		function noCurrentObjects(event:CurrentObjectsEventer):void
 		{
 			addChildAt(propPanel.Shadow, 1);//Затінюємо панель властивостей тексту.
 		}
-		//Функція керування зовнішнім виглядом панелі властивостей, коли не об'єкти виділені.
+		//Функція керування зовнішнім виглядом панелі властивостей, коли об'єкти виділені.
 		function isCurrentObjects(event:CurrentObjectsEventer):void
 		{
-			var i:int, X:int = 10000, Y:int = 10000;
+			var i:int;
+			mX = 10000, mY = 10000;//Вносимо початкові значення для координат.
 			var fontType = new Array(0);//Масиви властивостей текстових об'єктів.
 			var fontSize = new Array(0);
 			var fontColor = new Array(0);
@@ -68,14 +99,14 @@
 					fontSize.push(format.size);
 				}
 				
-				if(X > mWorkSpace.mCurObj[i].x)//Визначаємо координату х з найменшим значенням.
+				if(mX > mWorkSpace.mCurObj[i].x)//Визначаємо координату х з найменшим значенням.
 				{
-					X = mWorkSpace.mCurObj[i].x;
+					mX = mWorkSpace.mCurObj[i].x;
 				}
 				
-				if(Y > mWorkSpace.mCurObj[i].y)//Визначаємо координату y з найменшим значенням.
+				if(mY > mWorkSpace.mCurObj[i].y)//Визначаємо координату y з найменшим значенням.
 				{
-					Y = mWorkSpace.mCurObj[i].y;
+					mY = mWorkSpace.mCurObj[i].y;
 				}
 			}
 					
@@ -125,9 +156,9 @@
 					}
 				}
 			}
-
-			propPanel.tiX.text = String(X);//Відображення координати Х об'єкта.
-			propPanel.tiY.text = String(Y);//Відображення координати Y об'єкта.
+			
+			propPanel.tiX.text = String(mX);//Відображення координати Х об'єкта.
+			propPanel.tiY.text = String(mY);//Відображення координати Y об'єкта.
 		}
 		
 		function setTextBold(event:MouseEvent):void
