@@ -92,6 +92,18 @@
    						fontStyle="italic", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
 		private var EmbСalibriItalicBold : Class;
 		
+		[Embed(source="./files/fonts/cour.ttf", fontFamily="EmbCourier", 
+   						fontStyle="normal", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbCourier : Class;
+		[Embed(source="./files/fonts/courb.ttf", fontFamily="EmbCourier",
+   						fontStyle="normal", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbCourierBold : Class;
+		[Embed(source="./files/fonts/couri.ttf", fontFamily="EmbCourier", 
+   						fontStyle="italic", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbCourierItalic : Class;
+		[Embed(source="./files/fonts/courz.ttf", fontFamily="EmbCourier",
+   						fontStyle="italic", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbCourierItalicBold : Class;
 		
 		
 		public function EmbFonts() {
@@ -108,6 +120,7 @@
 			Font.registerFont(EmbTahoma);
 			Font.registerFont(EmbGeorgia);
 			Font.registerFont(EmbСalibri);
+			Font.registerFont(EmbCourier);
 		}
 
 	}
