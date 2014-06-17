@@ -6,12 +6,12 @@
 	
 	public class EmbFonts extends MovieClip{
          
-		[Embed(source="./files/fonts/sansMS.ttf", fontFamily="EmbSansMS", 
+		[Embed(source="./files/fonts/sansMS.ttf", fontFamily="EmbComicSansMS", 
    						fontStyle="normal", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
-		private var EmbSansMS : Class;
-		[Embed(source="./files/fonts/sansMSBold.ttf", fontFamily="EmbSansMS",
+		private var EmbComicSansMS : Class;
+		[Embed(source="./files/fonts/sansMSBold.ttf", fontFamily="EmbComicSansMS",
    						fontStyle="normal", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
-		private var EmbSansMSBold : Class;
+		private var EmbComicSansMSBold : Class;
 		
 		[Embed(source="./files/fonts/vrinda.ttf", fontFamily="EmbVrinda", 
    						fontStyle="normal", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
@@ -19,6 +19,12 @@
 		[Embed(source="./files/fonts/vrindab.ttf", fontFamily="EmbVrinda",
    						fontStyle="normal", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
 		private var EmbVrindaBold : Class;
+		[Embed(source="./files/fonts/cordiaui.ttf", fontFamily="EmbVrinda", 
+   						fontStyle="italic", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbVrindaItalic : Class;
+		[Embed(source="./files/fonts/cordiauz.ttf", fontFamily="EmbVrinda",
+   						fontStyle="italic", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbVrindaItalicBold : Class;
 		
 		[Embed(source="./files/fonts/verdana.ttf", fontFamily="EmbVerdana", 
    						fontStyle="normal", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
@@ -65,6 +71,12 @@
 		[Embed(source="./files/fonts/tahomab.ttf", fontFamily="EmbTahoma",
    						fontStyle="normal", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
 		private var EmbTahomaBold : Class;
+		[Embed(source="./files/fonts/cordiaui.ttf", fontFamily="EmbTahoma", 
+   						fontStyle="italic", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbTahomaItalic : Class;
+		[Embed(source="./files/fonts/cordiauz.ttf", fontFamily="EmbTahoma",
+   						fontStyle="italic", fontWeight="bold", embedAsCFF="false", unicodeRange="U+0020-007E")]
+		private var EmbTahomaItalicBold : Class;
 		
 		[Embed(source="./files/fonts/georgia.ttf", fontFamily="EmbGeorgia", 
    						fontStyle="normal", fontWeight="normal", embedAsCFF="false", unicodeRange="U+0020-007E")]
@@ -112,7 +124,7 @@
 		
 		public function loadFonts() : void
 		{
-			Font.registerFont(EmbSansMS);
+			Font.registerFont(EmbComicSansMS);
 			Font.registerFont(EmbVrinda);
 			Font.registerFont(EmbVerdana);
 			Font.registerFont(EmbTimesNewRoman);

@@ -27,7 +27,7 @@
 
 		public function WorkSpace()
 		{
-			trace("WorkSpace class");
+//			trace("WorkSpace class");
 			var embF:EmbFonts = new EmbFonts();
 			embF.loadFonts()
 			mCurObj = new Array(1);
