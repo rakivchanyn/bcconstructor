@@ -26,6 +26,8 @@
 			mSetPanel.y = 0;//Вирівнювання панелі по верхньому краю.
 			mSetPanel.cbWorkSpaceSizes.addEventListener(Event.CHANGE, setWorkSpace);
 			mSetPanel.cbMaterialType.addEventListener(Event.CHANGE, setChangeMaterialType);
+			mSetPanel.cbScale.selectedIndex = 1;
+			mSetPanel.cbScale.addEventListener(Event.CHANGE, setWorkSpaceScale);
 		}
 		//Метод настройки размера и расположения рабочей области.
 		public function setWorkSpace(event:Event):void
@@ -34,9 +36,19 @@
 			mTextData[1] = "Розмір: " + mSetPanel.cbWorkSpaceSizes.selectedItem.label + "\n";
 			var size:Array = strSizes.split(" ", 2);//Строку заносим в масив размеров.
 			mWorkSpace.resizeWorkSpace(int(size[0]), int(size[1]));
-			mWorkSpace.x = mWidth/2 - mWorkSpace.width/2;
-			mWorkSpace.y = mHeight/2 - mWorkSpace.height/2;
+			mWorkSpace.x = int(mWidth/2 - mWorkSpace.mWidth/2);
+			mWorkSpace.y = int(mHeight/2 - mWorkSpace.mHeight/2);
 			//trace (mTextData[0] + mTextData[1]);
+		}
+		//Метод масштабирующий рабочую область
+		public function setWorkSpaceScale(event:Event)
+		{
+			var nScale:Number = mSetPanel.cbScale.selectedItem.data;
+			mWorkSpace.mScale = nScale;
+			mWorkSpace.scaleX = nScale;
+			mWorkSpace.scaleY = nScale;
+			mWorkSpace.x = int(mWidth/2 - nScale*mWorkSpace.mWidth/2);
+			mWorkSpace.y = int(mHeight/2 - nScale*mWorkSpace.mHeight/2);
 		}
 		
 		public function setChangeMaterialType(event:Event):void

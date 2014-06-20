@@ -19,8 +19,8 @@
 			addChild(workSpace);
 			var settingsForm = new SettingsPanel(workSpace, mWidth, mHeight);
 			addChild(settingsForm);
-			workSpace.x = mWidth/2 - workSpace.width/2;
-			workSpace.y = mHeight/2 - workSpace.height/2;
+			workSpace.x = int(mWidth/2 - workSpace.mWidth/2);
+			workSpace.y = int(mHeight/2 - workSpace.mHeight/2);
 			var propertiesForm = new PropertiesPanel(workSpace, mWidth, mHeight);
 			addChild(propertiesForm);
 			var objectsForm = new ObjectsPanel(workSpace, mWidth, mHeight);

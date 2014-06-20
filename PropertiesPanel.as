@@ -15,8 +15,8 @@
 		var propPanel:PropertiesPanelObjects;
 		var mTF:TextField;
 		var mWorkSpace:WorkSpace;
-		var mX:int;
-		var mY:int;
+		var mX:Number;
+		var mY:Number;
 		
 		public function PropertiesPanel(aWorkSpace:WorkSpace, aWidth:int, aHeight:int)
 		{
@@ -24,8 +24,8 @@
 			mTF = new TextField();
 			mWorkSpace = aWorkSpace;
 			propPanel = new PropertiesPanelObjects();
-			propPanel.x = aWidth/2 - propPanel.FormBackGround.width/2;//Вирівнювання панелі по центру.
-			propPanel.y = aHeight - propPanel.FormBackGround.height;//Вирівнювання панелі по нижньому краю.			
+			propPanel.x = int(aWidth/2 - propPanel.FormBackGround.width/2);//Вирівнювання панелі по центру.
+			propPanel.y = int(aHeight - propPanel.FormBackGround.height);//Вирівнювання панелі по нижньому краю.			
 			addChild(propPanel);
 			propPanel.Shadow.x = propPanel.x;//Координати області, яка затінює об'єкти панелі властивостей.
 			propPanel.Shadow.y = propPanel.y;
@@ -51,28 +51,28 @@
 		//Функція зміни положення об'єктів по координаті Х.
 		function setXPosition(event:Event)
 		{
-			var iXChange:int;
-			iXChange = mX - int(propPanel.tiX.text);//Визначаємо зміну в між попереднім значенням координати і зміненим.
+			var iXChange:Number;
+			iXChange = mWorkSpace.mScreenDPI*(mX - Number(propPanel.tiX.text));//Визначаємо зміну в між попереднім значенням координати і зміненим.
 			
 			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)//Працюємо з поточними виділенними об'єктами.
 			{
 				mWorkSpace.mCurObj[i].x = mWorkSpace.mCurObj[i].x - iXChange;//Змінюємо координату Х об'єкта на величину зміни.
 			}
 			
-			mX = int(propPanel.tiX.text);//Запам'ятовуємо теперішнє значення.
+			mX = Number(propPanel.tiX.text);//Запам'ятовуємо теперішнє значення.
 		}
 		//Функція зміни положення об'єктів по координаті Y.
 		function setYPosition(event:Event)
 		{
-			var iYChange:int;
-			iYChange = mY - int(propPanel.tiY.text);//Визначаємо зміну в між попереднім значенням координати і зміненим.
+			var iYChange:Number;
+			iYChange = mWorkSpace.mScreenDPI*(mY - Number(propPanel.tiY.text));//Визначаємо зміну в між попереднім значенням координати і зміненим.
 
 			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)//Працюємо з поточними виділенними об'єктами.
 			{
 				mWorkSpace.mCurObj[i].y = mWorkSpace.mCurObj[i].y - iYChange;//Змінюємо координату Y об'єкта на величину зміни.
 			}
 			
-			mY = int(propPanel.tiY.text);//Запам'ятовуємо теперішнє значення.
+			mY = Number(propPanel.tiY.text);//Запам'ятовуємо теперішнє значення.
 		}
 		//Функція керування зовнішнім виглядом панелі властивостей, коли не виділений жодний об'єкт.
 		function noCurrentObjects(event:CurrentObjectsEventer):void
@@ -99,17 +99,17 @@
 					fontSize.push(format.size);
 				}
 				
-				if(mX > mWorkSpace.mCurObj[i].x)//Визначаємо координату х з найменшим значенням.
+				if(mX > mWorkSpace.mCurObj[i].x/mWorkSpace.mScreenDPI)//Визначаємо координату х з найменшим значенням.
 				{
-					mX = mWorkSpace.mCurObj[i].x;
+					mX = mWorkSpace.mCurObj[i].x/mWorkSpace.mScreenDPI;
 				}
 				
-				if(mY > mWorkSpace.mCurObj[i].y)//Визначаємо координату y з найменшим значенням.
+				if(mY > mWorkSpace.mCurObj[i].y/mWorkSpace.mScreenDPI)//Визначаємо координату y з найменшим значенням.
 				{
-					mY = mWorkSpace.mCurObj[i].y;
+					mY = mWorkSpace.mCurObj[i].y/mWorkSpace.mScreenDPI;
 				}
 			}
-					
+			
 			if(fontType.length > 0)//Виділено хоча б один текстовий об'єкт.
 			{
 				addChildAt(propPanel.Shadow, 0);//Забираємо затінення панелі властивостей тексту.
@@ -157,8 +157,8 @@
 				}
 			}
 			
-			propPanel.tiX.text = String(mX);//Відображення координати Х об'єкта.
-			propPanel.tiY.text = String(mY);//Відображення координати Y об'єкта.
+			propPanel.tiX.text = String(mX.toFixed(1));//Відображення координати Х об'єкта.
+			propPanel.tiY.text = String(mY.toFixed(1));//Відображення координати Y об'єкта.
 		}
 		
 		function setTextBold(event:MouseEvent):void

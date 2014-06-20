@@ -6,7 +6,7 @@
 	import flash.display.Shape;
     import flash.display.InteractiveObject;
 	import flash.text.*;
-	import EmbFonts;
+//	import EmbFonts;
     import flash.events.EventDispatcher;
     import flash.events.Event;
 	import CurrentObjectsEventer;
@@ -19,22 +19,23 @@
 		var mWorkSpaceMask:Sprite;
 		var mBackGround:Sprite;
 		var mNoFocusText:TextField;
-		var mOffsetX:Vector.<int>; 
-		var mOffsetY:Vector.<int>;
+		var mOffsetX:Vector.<Number>; 
+		var mOffsetY:Vector.<Number>;
 		public var mCurObj:Array;
 		public var mObject:Array;
 		public var mPreviousText:TextField;
+		public var mScale:Number = 1;
 
 		public function WorkSpace()
 		{
-//			trace("WorkSpace class");
-			var embF:EmbFonts = new EmbFonts();
-			embF.loadFonts()
+			trace("WorkSpace class");
+//			var embF:EmbFonts = new EmbFonts();
+//			embF.loadFonts()
 			mCurObj = new Array(1);
 			mCurObj[0] = null;
 			mObject = new Array();
-			mOffsetX = new Vector.<int>(30); 
-			mOffsetY = new Vector.<int>(30);
+			mOffsetX = new Vector.<Number>(30); 
+			mOffsetY = new Vector.<Number>(30);
 			//Створюєм фон робочої області
 			mBackGround = new Sprite(); 
 			mBackGround.graphics.beginFill(0xffffff); 
@@ -43,6 +44,7 @@
 			mBackGround.doubleClickEnabled = true;
 			mNoFocusText = new TextField();
 			mNoFocusText.y = -100;
+			mNoFocusText.x = 1.5;
 			addChild(mNoFocusText);
 			this.addChild(mBackGround);
 			//Створюємо маску робочої області.
@@ -200,7 +202,7 @@
 				format = mPreviousText.getTextFormat(0,1);
 			}
 			
-			mObject[i].embedFonts = true;
+//			mObject[i].embedFonts = true;
 			mObject[i].defaultTextFormat = format;			
 			mObject[i].type = TextFieldType.INPUT;
 			mObject[i].multiline = true;
