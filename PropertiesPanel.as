@@ -9,6 +9,8 @@
     import flash.events.EventDispatcher;
 	import CurrentObjectsEventer;
 	import flash.display.Sprite;
+	import fl.data.DataProvider;
+	import ComboBoxColors;
 	
 	public class PropertiesPanel extends MovieClip
 	{
@@ -17,6 +19,7 @@
 		var mWorkSpace:WorkSpace;
 		var mX:Number;
 		var mY:Number;
+		var cbCol:ComboBoxColors;
 		
 		public function PropertiesPanel(aWorkSpace:WorkSpace, aWidth:int, aHeight:int)
 		{
@@ -25,7 +28,25 @@
 			mWorkSpace = aWorkSpace;
 			propPanel = new PropertiesPanelObjects();
 			propPanel.x = int(aWidth/2 - propPanel.FormBackGround.width/2);//Вирівнювання панелі по центру.
-			propPanel.y = int(aHeight - propPanel.FormBackGround.height);//Вирівнювання панелі по нижньому краю.			
+			propPanel.y = int(aHeight - propPanel.FormBackGround.height);//Вирівнювання панелі по нижньому краю.
+			
+			var data:DataProvider = new DataProvider();
+			data.addItem({label:"Чорний", color:0x000000});
+			data.addItem({label:"Червоний", color:0xff0000});
+			data.addItem({label:"Зелений", color:0x00ff00});
+			data.addItem({label:"Синій", color:0x0000ff});
+			data.addItem({label:"Золотистий", color:0xffcc33});
+			data.addItem({label:"Сріблястий", color:0xcccccc});
+			data.addItem({label:"", color:-1});
+			
+			cbCol = new ComboBoxColors();
+			cbCol.x = 238;
+			cbCol.y = 12;
+			cbCol.dropdown.setStyle("cellRenderer", ColorCellRenderer);
+			cbCol.dataProvider = data;
+			cbCol.rowCount = 7;
+			propPanel.addChild(cbCol);
+			
 			addChild(propPanel);
 			propPanel.Shadow.x = propPanel.x;//Координати області, яка затінює об'єкти панелі властивостей.
 			propPanel.Shadow.y = propPanel.y;
@@ -37,10 +58,12 @@
 			propPanel.btTextAlignCenter.addEventListener(MouseEvent.CLICK, setTextAlingCenter);
 			propPanel.btTextAlignRight.addEventListener(MouseEvent.CLICK, setTextAlingRight);
 			propPanel.cbFontType.addEventListener(Event.CHANGE, setFontType);
-			propPanel.cbColorPick.addEventListener(Event.CHANGE, setTextColor);
+			cbCol.addEventListener(Event.CHANGE, setTextColor);
 			propPanel.nsFontSize.addEventListener(Event.CHANGE, setFontSize);
 			propPanel.tiX.addEventListener(Event.CHANGE, setXPosition);
 			propPanel.tiY.addEventListener(Event.CHANGE, setYPosition);
+
+
 			//Прослуховувач події на скидання фокуса з об'єктів(тобто жоден об'єкт не виділений).
 			mWorkSpace.addEventListener(CurrentObjectsEventer.CURRENT_OBJECTS_FALSE, noCurrentObjects);
 			//Прослуховувач події на появу фокуса на об'єкті/об'єктах.
@@ -146,11 +169,11 @@
 					}
 				}
 				//Визначаємо поле випадаючого списку кольорів тексту, яке відповідає кольору текстового об'єкту.
-				for(i = 0; i < propPanel.cbColorPick.length; i++)
+				
+				for(i = 0; i < cbCol.length; i++)
 				{
-					propPanel.cbColorPick.selectedIndex = i;
-					
-					if(propPanel.cbColorPick.selectedItem.data == fontColor[0])//Якщо колір текстового об'єкту
+					cbCol.selectedIndex = i;
+					if(cbCol.selectedItem.color == fontColor[0])//Якщо колір текстового об'єкту
 					{//співпадає з кольором з випадаючого списку,
 						break;//то тоді виходимо із циклу.
 					}
@@ -236,7 +259,7 @@
 		
 		function setTextColor(evt:Event):void
 		{
-			if((evt.currentTarget as ComboBox).selectedItem.data == -1)
+			if((evt.currentTarget as ComboBoxColors).selectedItem.color == -1)
 				return;
 
 			for(var i:int = 0; i < mWorkSpace.mCurObj.length; i++)
@@ -245,7 +268,7 @@
 				{
 					mTF = mWorkSpace.mCurObj[i];
 					var format:TextFormat = mTF.getTextFormat(0,1);
-					format.color = (evt.currentTarget as ComboBox).selectedItem.data;
+					format.color = (evt.currentTarget as ComboBoxColors).selectedItem.color;
 					mTF.setTextFormat(format);
 				}
 			}
