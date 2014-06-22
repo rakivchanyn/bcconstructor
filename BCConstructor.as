@@ -16,9 +16,9 @@
 			mWidth = stage.stageWidth;
 			mHeight = stage.stageHeight;
 			var workSpace = new WorkSpace();
-			addChild(workSpace);
 			var settingsForm = new SettingsPanel(workSpace, mWidth, mHeight);
 			addChild(settingsForm);
+			addChild(workSpace);
 			workSpace.x = int(mWidth/2 - workSpace.mWidth/2);
 			workSpace.y = int(mHeight/2 - workSpace.mHeight/2);
 			var propertiesForm = new PropertiesPanel(workSpace, mWidth, mHeight);

@@ -14,8 +14,8 @@
 	public class WorkSpace extends Sprite
 	{
 		public var mScreenDPI:Number = 96/25.4;
-		public var mWidth:int = 30*mScreenDPI;
-		public var mHeight:int = 20*mScreenDPI;
+		public var mWidth:int = 20*mScreenDPI;
+		public var mHeight:int = 30*mScreenDPI;
 		var mWorkSpaceMask:Sprite;
 		var mBackGround:Sprite;
 		var mNoFocusText:TextField;
@@ -44,14 +44,15 @@
 			mBackGround.doubleClickEnabled = true;
 			mNoFocusText = new TextField();
 			mNoFocusText.y = -100;
-			mNoFocusText.x = 1.5;
 			addChild(mNoFocusText);
 			this.addChild(mBackGround);
 			//Створюємо маску робочої області.
 			mWorkSpaceMask = new Sprite(); 
 			mWorkSpaceMask.graphics.beginFill(0xffffff); 
-			mWorkSpaceMask.graphics.drawRect(0, 0, mWidth, mHeight); 
-			mWorkSpaceMask.graphics.endFill(); 
+			mWorkSpaceMask.graphics.drawRect(0, 0, mWidth - 2*mScreenDPI, mHeight - 2*mScreenDPI); 
+			mWorkSpaceMask.graphics.endFill();
+			mWorkSpaceMask.x = mScreenDPI;
+			mWorkSpaceMask.y = mScreenDPI;
 			mBackGround.addEventListener(MouseEvent.CLICK, makeSelected);//Скидаем виділення всіх об'єктів.
 			mBackGround.addEventListener(MouseEvent.DOUBLE_CLICK, makeEditable);
 			this.addChild(mWorkSpaceMask);
@@ -231,8 +232,8 @@
 			mHeight = aHeight*mScreenDPI;
 			mBackGround.width = mWidth;
 			mBackGround.height = mHeight;
-			mWorkSpaceMask.width = mWidth;
-			mWorkSpaceMask.height = mHeight;
+			mWorkSpaceMask.width = mWidth - 2*mScreenDPI;
+			mWorkSpaceMask.height = mHeight - 2*mScreenDPI;
 		}
 		//Функція початку перетягування обєктів. Визиваеться коли відбувається натискання миші.
 		function startDragging(event:MouseEvent):void 
@@ -248,8 +249,8 @@
 			
 			for(var i:int = 0; i < mCurObj.length; i++)
 			{
-				mOffsetX[i] = event.stageX - mCurObj[i].x;//Запис різниці координат миші на екрані і координат
-				mOffsetY[i] = event.stageY - mCurObj[i].y;//об'єкту.
+				mOffsetX[i] = event.stageX - mCurObj[i].x*mScale;//Запис різниці координат миші на екрані і координат
+				mOffsetY[i] = event.stageY - mCurObj[i].y*mScale;//об'єкту.
 			}
 			
 			stage.addEventListener(MouseEvent.MOUSE_MOVE, dragObjects);//Відслідковування переміщення миші. 
@@ -264,8 +265,8 @@
 		{//Переміщення обєкту з попередньої точки розташування на величину зміщення миші. 
 			for(var i:int = 0; i < mCurObj.length; i++)
 			{
-				mCurObj[i].x = event.stageX - mOffsetX[i]; 
-				mCurObj[i].y = event.stageY - mOffsetY[i]; 
+				mCurObj[i].x = (event.stageX - mOffsetX[i])/mScale; 
+				mCurObj[i].y = (event.stageY - mOffsetY[i])/mScale; 
 			}
 		}
 	}
